@@ -1,0 +1,35 @@
+{
+	"conflict": [
+		"Man vs. Man","Man vs. Self","Man vs. Nature","Man vs. Society","Man vs. Technology","Man vs. Supernatural"
+	],
+	"pointOfView": [
+		"First Person","Third Person Limited","Third Person Omniscient"
+	],
+	"setting": [
+    	"Modern/Contemporary",
+    	"Historical",
+    	"Victorian",
+    	"Western",
+    	"Outer Space",
+    	"Fantasy World",
+    	"Post-Apocalyptic",
+    	"Dystopian",
+    	"Urban",
+    	"Rural/Countryside",
+    	"Suburban",
+    	"Medieval",
+    	"Industrial",
+    	"Gothic",
+    	"High Fantasy",
+    	"Low Fantasy",
+    	"Noir",
+    	"Seaside/Coastal",
+    	"Jungle",
+    	"Desert",
+    	"Arctic/Polar",
+    	"Underwater",
+    	"Cyberpunk",
+    	"Steampunk",
+    	"Dreamscape/Surreal"
+	]
+}
