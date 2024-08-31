@@ -1,6 +1,6 @@
 # Story Generator
 
-This takes user input defining some things that describe a story and uses ChatGPT to generate a story to match. At the moment it's a very light one-day proof of concept.
+This takes user input defining some things that describe a story and uses ChatGPT to generate a story to match. At the moment it's a very light proof of concept.
 
 ## Usage
 

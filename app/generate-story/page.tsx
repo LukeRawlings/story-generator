@@ -13,7 +13,7 @@ export default function GenerateStory() {
         pointOfView: '',
         setting: '',
     });
-    const [generatedStory, setGeneratedStory] = useState<string | null>(null);
+    const [storyParagraphs, setStoryParagraphs] = useState<string[] | null>(null);
     const [facetsFormSubmitContent, setFacetsFormSubmitContent] = useState<string | null>("Please wait...");
     const [facetsFormSubmitDisabled, setFacetsFormSubmitDisabled] = useState<boolean>(true);
 
@@ -52,7 +52,7 @@ export default function GenerateStory() {
         })
             .then((res) => res.json())
             .then((data) => {
-                setGeneratedStory(data.message)
+                setStoryParagraphs(JSON.parse(data.message))
                 setFacetsFormSubmitContent("Generate!");
                 setFacetsFormSubmitDisabled(false);
             });
@@ -108,8 +108,13 @@ export default function GenerateStory() {
                 <button type="submit" disabled={facetsFormSubmitDisabled} id="facetsFormSubmit">{facetsFormSubmitContent}</button>
             </form>
 
-            {generatedStory && (
-                <p style={{"maxWidth": "500px"}}>{generatedStory}</p>
+            {storyParagraphs && (
+                <div style={{"maxWidth": "500px"}}>
+                    {storyParagraphs.map((line, index) => (
+                            <p key={index}>{line}</p>
+                    ))}
+                </div>
+                
             )}
         </main>
     );
