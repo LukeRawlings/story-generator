@@ -2,19 +2,26 @@ import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
+import Prompt from '../../../src/prompt';
 
 export async function POST(req: NextRequest) {
     const { conflict, pointOfView, setting } = await req.json();
 
-    if(conflict === '' || pointOfView === '' || setting === '') {
+    if(conflict === '' || pointOfView === '' || setting === '')
         return NextResponse.json({ message: JSON.stringify(['Please choose a value for each facet.']) });
-    }
 
-    const openAiApiKey = fs.readFileSync(path.resolve('../api-key.txt'), 'utf8');
+    const openAiApiKeyPath = '../api-key.txt';
+    const openAiApiKeyExists: boolean = fs.existsSync(path.resolve(openAiApiKeyPath));
+    if(!openAiApiKeyExists)
+        return NextResponse.json({ message: JSON.stringify(['API key not found. You must create an `api-key.txt` file in the parent directory with an OpenAI API key. Get one here: https://platform.openai.com/settings/organization/billing/overview.']) });
+    const openAiApiKey = fs.readFileSync(path.resolve(openAiApiKeyPath), 'utf8');
+    if(openAiApiKey.length < 1)
+        return NextResponse.json({ message: JSON.stringify([`API key not found in ${openAiApiKeyPath}. You must populate 'api-key.txt' in the parent directory with an OpenAI API key. Get one here: https://platform.openai.com/settings/organization/billing/overview.`]) });
+
     const openAiApiUrl = 'https://api.openai.com/v1/chat/completions';
 
     let result = JSON.stringify(['Once upon a time there was little application that failed to generate a story :(']);
-    const prompt = `Tell me a story in 300 words with these details: Conflict: ${conflict}, Point of View: ${pointOfView}, Setting: ${setting}. Even though it's short, try to bring each story to a resolution or cliffhanger. Only respond with the body of the story with no extraneous notes. Separate paragraphs using a newline character, with a backslash and n.`;
+    const prompt = Prompt.get(conflict, pointOfView, setting);
 
     try {
         const response: any = await axios.post(

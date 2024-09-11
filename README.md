@@ -4,7 +4,7 @@ This takes user input defining some things that describe a story and uses ChatGP
 
 ## Usage
 
-* Create an an `api-key.txt` file in the parent directory with an OpenAI API key. Get one here: https://platform.openai.com/settings/organization/billing/overview.
+* Create an `api-key.txt` file in the parent directory with an OpenAI API key. Get one here: https://platform.openai.com/settings/organization/billing/overview.
 * `npm run dev`
 * In a browser, navigate to http://localhost:3000/generate-story
 
