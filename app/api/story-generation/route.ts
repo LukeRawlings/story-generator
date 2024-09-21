@@ -3,11 +3,14 @@ import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
 import Prompt from '../../../src/prompt';
+import FacetDefinition from '@/src/facet-definition';
 
 export async function POST(req: NextRequest) {
     const { conflict, pointOfView, setting } = await req.json();
 
-    if(conflict === '' || pointOfView === '' || setting === '')
+    const facetDefinition: FacetDefinition = new FacetDefinition({conflict, pointOfView, setting});
+
+    if(!facetDefinition.isValid())
         return NextResponse.json({ message: JSON.stringify(['Please choose a value for each facet.']) });
 
     const openAiApiKeyPath = '../api-key.txt';
@@ -21,7 +24,7 @@ export async function POST(req: NextRequest) {
     const openAiApiUrl = 'https://api.openai.com/v1/chat/completions';
 
     let result = JSON.stringify(['Once upon a time there was little application that failed to generate a story :(']);
-    const prompt = Prompt.get(conflict, pointOfView, setting);
+    const prompt = Prompt.get(facetDefinition);
 
     try {
         const response: any = await axios.post(
@@ -41,7 +44,7 @@ export async function POST(req: NextRequest) {
                 },
             }
         );
-        const messageContent = response.data.choices[0].message.content;
+        const messageContent: string = response.data.choices[0].message.content;
 
         const paragraphs: string[] = messageContent.split('\n');
 
